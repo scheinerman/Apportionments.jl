@@ -175,6 +175,13 @@ julia> HH_DF = Huntington_Hill(DF)
                           29 rows omitted
 ```
 
+## Rounding Method
+
+In this method, we calculate the number of seats to assign to a state
+as a decimal, and then round to the nearest integer. This may result in 
+an apportionment that does not have the requisite number of seats. 
+
+Syntax is the same as for `Hamilton` and `Huntington-Hill`
 
 ## Saving Results
 
