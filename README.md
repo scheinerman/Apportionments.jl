@@ -3,8 +3,9 @@ Congressional Apportionment Methods
 
 ## Overview
 
-Seats in the United States House of Representatives are allocated based on the populations
-of the states. Specifically, the inputs to an apportionment procedure are the populations
+Seats in the United States House of Representatives are [allocated based on the populations
+of the states](https://en.wikipedia.org/wiki/United_States_congressional_apportionment). 
+Specifically, the inputs to an apportionment procedure are the populations
 of the states (as determined by the decennial census) and the number of seats in the House. 
 
 To a first approximation, the number of seats awarded to a state is the number of seats in 
@@ -129,6 +130,52 @@ julia> ham_DF = Hamilton(DF)
 The rightmost column is the number of seats awarded to each state.
 
 
+## Huntington-Hill Method
+
+The United States currently uses the 
+[Huntington-Hill](https://en.wikipedia.org/wiki/Huntington%E2%80%93Hill_method)
+method to assign seats to states. The function
+`Huntington_Hill` implements this algorithm. 
+
+The function takes two arguments: `Hamilton(pop_data, nseats)`.
+* `pop_data` is a `DataFrame` such as the output of `read_pop_data`.
+* `nseats` is the number of seats to be allocated (and defaults to 435).
+
+This is a typical workflow:
+```
+julia> DF = read_pop_data();
+
+julia> HH_DF = Huntington_Hill(DF)
+50×3 DataFrame
+ Row │ State           Population  Seats 
+     │ String15        Int64       Int64 
+─────┼───────────────────────────────────
+   1 │ Alabama            5030053      7
+   2 │ Alaska              736081      1
+   3 │ Arizona            7158923      9
+   4 │ Arkansas           3013756      4
+   5 │ California        39576757     52
+   6 │ Colorado           5782171      8
+   7 │ Connecticut        3608298      5
+   8 │ Delaware            990837      1
+   9 │ Florida           21570527     28
+  10 │ Georgia           10725274     14
+  11 │ Hawaii             1460137      2
+  ⋮  │       ⋮             ⋮         ⋮
+  41 │ South Dakota        887770      1
+  42 │ Tennessee          6916897      9
+  43 │ Texas             29183290     38
+  44 │ Utah               3275252      4
+  45 │ Vermont             643503      1
+  46 │ Virginia           8654542     11
+  47 │ Washington         7715946     10
+  48 │ West Virginia      1795045      2
+  49 │ Wisconsin          5897473      8
+  50 │ Wyoming             577719      1
+                          29 rows omitted
+```
+
+
 ## Saving Results
 
 Use the `CSV.write` function to save the output of an apportionment method
@@ -139,3 +186,10 @@ julia> using CSV
 julia> CSV.write("ham_out.csv", ham_DF)
 "ham_out.csv"
 ```
+
+## Comparison
+
+The two methods (Hamilton and Huntington-Hill) on the 2020 census data give
+different results. While nearly the same, Hamilton's method gives one 
+extra seat to each of New York and Ohio, and one fewer seat to each of
+Montana and Rhode Island. 
