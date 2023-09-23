@@ -1,0 +1,8 @@
+name = "Apportionments"
+uuid = "60c93640-5ec8-4d10-a597-df9151d08f79"
+authors = ["Ed Scheinerman <ers@jhu.edu>"]
+version = "0.0.1"
+
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
