@@ -1,2 +1,2 @@
-# Apportionments.jl
+# Apportionments
 Congressional apportionment methods
