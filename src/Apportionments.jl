@@ -1,7 +1,7 @@
 module Apportionments
 using CSV, DataFrames
 
-export read_pop_data
+export read_pop_data, apportion
 """
     data_dir 
 
@@ -43,6 +43,34 @@ end
 include("Hamilton.jl")
 include("Huntington_Hill.jl")
 include("Rounding.jl")
+
+
+"""
+    apportion(;
+        nseats::Int = 435,
+        pop_data::String = pop2020_data,
+        method::Function = Huntington_Hill)::Dict{String,Int}
+
+Compute an apportionment and return the result as a dictionary mapping
+state names to the number of seats they are allotted.
+
+All arguments are named:
+* `nseats` -- number of seats 
+* `pop_data` -- CSV file with the population data 
+* `method` -- apportioning function 
+"""
+function apportion(;
+    nseats::Int = 435,
+    pop_data::String = pop2020_data,
+    method::Function = Huntington_Hill,
+)::Dict{String,Int}
+
+    df = read_pop_data(pop_data)
+    result = method(df, nseats)
+
+    Dict(result.State[i] => result.Seats[i] for i = 1:nrow(result))
+
+end
 
 
 end # module Apportionments

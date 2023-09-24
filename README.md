@@ -20,6 +20,61 @@ give Maryland 8 seats by simple rounding. However, if we apply simple rounding
 to all states, it is possible that the number of seats allocated is not 435. 
 It is also possible that a low population state would not be allocated any seats. 
 
+## The `apportion` Function
+
+The `apportion` function reads in a file containing the populations of the states
+and creates an apportionment based on the desired number of seats and the apportionment
+method. It returns a `Dict` mapping state names to the number of seats alloted to that
+state.
+
+
+It is invoked as follows:
+```
+julia> apportion(nseats=425, pop_data="data/state-pops-2020.csv", method=Huntington_Hill)
+```
+Here we have the following named arguments:
+* `nseats` is the number of seats available; default is 425.
+* `pop_data` is the name of the CSV file holding the data (see next section); default is `state-pops-2020.csv` in the `data` directory.
+* `method` is an apportionment function; default is `Huntington_Hill`.
+
+Available methods are `Huntingon_Hill`, `Hamilton`, and `Rounding`. Others may be 
+added in subsequent releases.
+```
+julia> app_hh = apportion()    # all default values
+Dict{String, Int64} with 50 entries:
+  "Alaska"         => 1
+  "Colorado"       => 8
+  "Texas"          => 38
+  "Alabama"        => 7
+  "Massachusetts"  => 9
+  "Vermont"        => 1
+  "Missouri"       => 8
+  "Wyoming"        => 1
+  "California"     => 52
+  "Florida"        => 28
+  "Michigan"       => 13
+  "Maine"          => 2
+  "Iowa"           => 4
+  "Tennessee"      => 9
+  "Nevada"         => 4
+  "Kentucky"       => 6
+  "Delaware"       => 1
+  "Indiana"        => 9
+  "North Carolina" => 14
+  ⋮                => ⋮
+
+julia> app_ham = apportion(method=Hamilton);
+
+julia> app_ham["Rhode Island"]
+1
+
+julia> app_hh["Rhode Island"]
+2
+```
+
+
+
+
 ## Data 
 
 The basic information needed are the names of the states and their populations. 
@@ -38,6 +93,8 @@ New Hampshire,1379089
 The file `state-pos-2020.csv` is based on information from the 2020 United States census 
 that is published 
 [here](https://www.census.gov/data/tables/2020/dec/2020-apportionment-data.html).
+
+### Reading population data into a `DataFrame`
 
 The function `read_pop_data` is used to read in such a data file and save it in 
 a `DataFrame` that is used by the methods described below. Use it like this:
@@ -81,7 +138,8 @@ julia> DF = read_pop_data()
                    29 rows omitted
 ```
 
-## Hamilton's Method
+## Methods
+### Hamilton's Method
 
 The function `Hamilton` computes a congressional apportionment method using 
 the method proposed by 
@@ -130,7 +188,7 @@ julia> ham_DF = Hamilton(DF)
 The rightmost column is the number of seats awarded to each state.
 
 
-## Huntington-Hill Method
+### Huntington-Hill Method
 
 The United States currently uses the 
 [Huntington-Hill](https://en.wikipedia.org/wiki/Huntington%E2%80%93Hill_method)
@@ -175,13 +233,15 @@ julia> HH_DF = Huntington_Hill(DF)
                           29 rows omitted
 ```
 
-## Rounding Method
+### Rounding Method
 
 In this method, we calculate the number of seats to assign to a state
-as a decimal, and then round to the nearest integer. This may result in 
-an apportionment that does not have the requisite number of seats. 
+as a decimal, and then round to the nearest integer. 
+
+>This may result in an apportionment that does not have the requisite number of seats. 
 
 Syntax is the same as for `Hamilton` and `Huntington-Hill`.
+
 
 ## Saving Results
 
@@ -196,7 +256,7 @@ julia> CSV.write("ham_out.csv", ham_DF)
 
 ## Comparison
 
-The two methods (Hamilton and Huntington-Hill) on the 2020 census data give
+The Hamilton and Huntington-Hill methods, when applied to the 2020 census data, give
 different results. While nearly the same, Hamilton's method gives one 
 extra seat to each of New York and Ohio, and one fewer seat to each of
 Montana and Rhode Island. 
