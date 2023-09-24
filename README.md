@@ -123,7 +123,7 @@ but rather are used by the `apportion` function.
 Methods currently available:
 * `Hamilton` -- method proposed by Alexander Hamilton.
 * `Jefferson` -- method proposed by Thomas Jefferson.
-* `Huntington-Hill` -- method currently used by the United States.
+* `Huntington_Hill` -- method currently used by the United States.
 * `Rounding` -- demonstration method that might give an apportionment with the wrong number of seats.
 
 
