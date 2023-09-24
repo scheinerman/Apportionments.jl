@@ -95,7 +95,7 @@ The data in the file `state-pos-2020.csv` is from the 2020 United States
 census that is published 
 [here](https://www.census.gov/data/tables/2020/dec/2020-apportionment-data.html).
 
-### Reading population data into a `DataFrame`
+#### Reading population data into a `DataFrame`
 
 The function `read_pop_data` is used to read in such a data file and save it in 
 a `DataFrame` that is used by the methods described below. Use it like this:
@@ -108,7 +108,7 @@ julia> DF = read_pop_data("/path/to/data/populations.csv")
 If the file name is ommited, we use the `state-pops-2020.csv` file in the `data` 
 directory.
 
-Users will typically not need to use the function; it is called by the
+Users will typically not need to use this function; it is called by the
 `apportion` function. 
 
 ## Methods
