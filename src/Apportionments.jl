@@ -73,5 +73,7 @@ function apportion(;
 
 end
 
+include("compare.jl")
+
 
 end # module Apportionments

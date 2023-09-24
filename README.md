@@ -139,3 +139,40 @@ julia> using CSV
 julia> CSV.write("ham_out.csv", ham_DF)
 "ham_out.csv"
 ```
+
+## Comparing the Methods
+
+The function `app_compare` produces a `DataFrame` showing the 
+resulting apportionments using multiple methods displayed side-by-side.
+```
+app_compare(;
+  nseats = 435,
+  pop_data = "data/state-pops-2020.csv",
+  method_list::Vector{Function} = [Hamilton, Jefferson, Huntington_Hill, Rounding]
+)
+```
+
+The output looks like this:
+```
+50×6 DataFrame
+ Row │ State           Population  Hamilton  Jefferson  Huntington_Hill  Rounding 
+     │ String15        Int64       Int64     Int64      Int64            Int64    
+─────┼────────────────────────────────────────────────────────────────────────────
+   1 │ Alabama            5030053         7          6                7         7
+   2 │ Alaska              736081         1          1                1         1
+   3 │ Arizona            7158923         9          9                9         9
+   4 │ Arkansas           3013756         4          4                4         4
+   5 │ California        39576757        52         54               52        52
+   6 │ Colorado           5782171         8          8                8         8
+   7 │ Connecticut        3608298         5          5                5         5
+   8 │ Delaware            990837         1          1                1         1
+  ⋮  │       ⋮             ⋮          ⋮          ⋮             ⋮            ⋮
+  44 │ Utah               3275252         4          4                4         4
+  45 │ Vermont             643503         1          0                1         1
+  46 │ Virginia           8654542        11         12               11        11
+  47 │ Washington         7715946        10         10               10        10
+  48 │ West Virginia      1795045         2          2                2         2
+  49 │ Wisconsin          5897473         8          8                8         8
+  50 │ Wyoming             577719         1          0                1         1
+                                                                   35 rows omitted
+```
