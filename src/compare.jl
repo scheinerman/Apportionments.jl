@@ -10,8 +10,8 @@ Compare different apportionment methods. The output is a `DataFrame` giving the 
 various apportionment methods side-by-side.
 """
 function app_compare(;
-    nseats = 435,
-    pop_data = "data/state-pops-2020.csv",
+    nseats = house_seats,
+    pop_data = pop2020_data,
     method_list::Vector{Function} = [Hamilton, Jefferson, Huntington_Hill, Rounding],
 )::DataFrame
 

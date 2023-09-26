@@ -61,7 +61,7 @@ All arguments are named:
 * `method` -- apportioning function 
 """
 function apportion(;
-    nseats::Int = 435,
+    nseats::Int = house_seats,
     pop_data::String = pop2020_data,
     method::Function = Huntington_Hill,
 )::Dict{String,Int}
